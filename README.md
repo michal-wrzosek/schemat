@@ -1,4 +1,5 @@
 # schemat - simple runtime schema validator
+![npm](https://img.shields.io/npm/v/schemat) [![Build Status](https://travis-ci.com/michal-wrzosek/schemat.svg?branch=master)](https://travis-ci.com/michal-wrzosek/schemat)
 
 ### How to install:
 
