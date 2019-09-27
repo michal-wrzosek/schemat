@@ -1,4 +1,4 @@
-export type ErrorMessagesType = { [key: string]: string | ErrorMessagesType } | string | undefined;
+export type ErrorMessagesType = { [key: string]: ErrorMessagesType } | string | undefined;
 export type ValidatorType = (data: any, siblingsData?: any) => ErrorMessagesType;
 export type SchemaType = { [key: string]: ValidatorType };
 
