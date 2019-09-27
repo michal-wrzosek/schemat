@@ -1,5 +1,6 @@
 export type ErrorMessagesType = { [key: string]: ErrorMessagesType } | string | undefined;
-export type ValidatorType = (data: any, siblingsData?: any) => ErrorMessagesType;
+export type SiblingsDataType = { [key: string]: any };
+export type ValidatorType = (data: any, siblingsData?: SiblingsDataType) => ErrorMessagesType;
 export type SchemaType = { [key: string]: ValidatorType };
 
 export const createVadidator = (schema: SchemaType) => (data: any) => {

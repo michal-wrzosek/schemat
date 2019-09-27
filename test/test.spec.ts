@@ -48,4 +48,25 @@ describe('test', () => {
       },
     });
   });
+
+  it('allow to validate a combination of params', () => {
+    const validator = createVadidator({
+      a: (data: any) => (typeof data === 'undefined' ? undefined : data === 'A' ? undefined : 'a should be A'),
+      b: (data: any) => (typeof data === 'undefined' ? undefined : data === 'B' ? undefined : 'b should be B'),
+      abCombination: (_, siblingsData) =>
+        siblingsData && (typeof siblingsData.a !== 'undefined' || typeof siblingsData.b !== 'undefined')
+          ? undefined
+          : 'a or b should be defined',
+    });
+
+    expect(
+      validator({
+        a: 'A',
+      }),
+    ).to.be.equal(undefined);
+
+    expect(validator({})).to.be.deep.equal({
+      abCombination: 'a or b should be defined',
+    });
+  });
 });
