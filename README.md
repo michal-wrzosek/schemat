@@ -1,15 +1,55 @@
-# typescript-lib-boilerplate
+# schemat - simple runtime schema validator
 
-This is a boilerplate repository for creating npm packages written in TypeScript.
+### How to install:
 
-## Installation:
+```
+npm i schemat
+```
 
-To install all dependencies run `npm run install-all`.
+### How to use
 
-## Developing your library:
+Validate objects with simple functions and receive error messages if any:
 
-To start developing your library, run `npm run dev`. It will build your library and run example create-react-app where you can test your library. Each time you make changes to your library or example app, app will be reloaded to reflect your changes.
+```typescript
+import { createVadidator } from 'schemat';
 
-## Typescript
+const validator = createVadidator({
+  a: (data: any) => (data === 'A' ? undefined : '"a" should be "A"'),
+  likeA: (data: any, siblingsData: any) => siblingsData && siblingsData.a === data ? undefined : '"likeA" should be equal to param "a"',
+  nested: createVadidator({
+    c: (data: any) => (data === 'C' ? undefined : '"nested.c" should be "C"'),
+  }),
+});
 
-This boilerplate lets you develop your libraries in Typescript and you can simultaneously test it in Typescript example create-react-app.
+
+// No errror messages here:
+// errorMessages => undefined
+const errorMessages = validator({
+  a: 'A',
+  likeA: 'A',
+  nested: {
+    c: 'C',
+  },
+});
+
+
+// wrong b and nested.c params:
+// errorMessages => {
+//   b: '"likeA" should be equal to param "a"',
+//   nested: {
+//     c: '"nested.c" should be "C"',
+//   },
+// };
+const errorMessages = validator({
+  a: 'A',
+  likeA: 'wrong!!!',
+  nested: {
+    c: 'wrong!!!',
+  },
+});
+
+```
+
+---
+
+This package was bootstrapped with [typescript-lib-boilerplate](https://github.com/michal-wrzosek/typescript-lib-boilerplate)

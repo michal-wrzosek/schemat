@@ -1,3 +1,3 @@
-import { test } from './test';
+import { createVadidator, SchemaType, ErrorMessagesType, ValidatorType } from './schemaValidator';
 
-export { test };
+export { createVadidator, SchemaType, ErrorMessagesType, ValidatorType };
