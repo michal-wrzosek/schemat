@@ -48,7 +48,40 @@ const errorMessages = validator({
     c: 'wrong!!!',
   },
 });
+```
 
+You can also pass an array of validators in your schema. Validator will run validators one by one and will stop and return first error, if any:
+
+```typescript
+import { createVadidator, ValidatorType } from 'schemat';
+
+enum ERRORS {
+  VALIDATION_ERROR_REQUIRED_FIELD = 'VALIDATION_ERROR_REQUIRED_FIELD',
+  VALIDATION_ERROR_NOT_A_STRING = 'VALIDATION_ERROR_NOT_A_STRING',
+  VALIDATION_ERROR_INVALID_EMAIL = 'VALIDATION_ERROR_INVALID_EMAIL',
+}
+
+const isRequiredValidator: ValidatorType = (data: any) =>
+  typeof data === 'undefined' ? ERRORS.VALIDATION_ERROR_REQUIRED_FIELD : undefined;
+const stringValidator: ValidatorType = (data: any) =>
+  typeof data === 'undefined'
+    ? undefined
+    : typeof data !== 'string'
+    ? ERRORS.VALIDATION_ERROR_NOT_A_STRING
+    : undefined;
+const emailValidator: ValidatorType = (data: any) =>
+  typeof data === 'undefined'
+    ? undefined
+    : typeof data === 'string' && /^\S+@\S+$/.test(data)
+    ? undefined
+    : ERRORS.VALIDATION_ERROR_INVALID_EMAIL;
+
+const validator = createVadidator({
+  optionalEmail: emailValidator,
+  requiredEmail: [isRequiredValidator, emailValidator],
+  optionalString: stringValidator,
+  requiredString: [isRequiredValidator, stringValidator],
+});
 ```
 
 ---
