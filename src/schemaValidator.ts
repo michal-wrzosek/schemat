@@ -3,7 +3,7 @@ export type SiblingsDataType = { [key: string]: any };
 export type ValidatorType = (data: any, siblingsData?: SiblingsDataType) => ErrorMessagesType;
 export type SchemaType = { [key: string]: ValidatorType | ValidatorType[] };
 
-export const createVadidator = (schema: SchemaType) => (data: any) => {
+export const createValidator = (schema: SchemaType) => (data: any) => {
   const errorMessages: ErrorMessagesType = Object.keys(schema).reduce(
     (errorMessages, key) => {
       const dataToValidate = data[key];

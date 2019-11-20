@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { createVadidator, ValidatorType } from '../src/schemaValidator';
+import { createValidator, ValidatorType } from '../src/schemaValidator';
 
 describe('test', () => {
   const schema = {
@@ -10,14 +10,14 @@ describe('test', () => {
       (data: any) => (typeof data === 'undefined' ? 'is required error' : undefined),
       (data: any) => (typeof data !== 'string' ? 'not a string error' : undefined),
     ],
-    c: createVadidator({
+    c: createValidator({
       cA: (data: any) => (data === 'CA' ? undefined : 'cA should be CA'),
       cB: (data: any) => (data === 'CB' ? undefined : 'cB should be CB'),
       likeCA: (data: any, siblingsData: any) =>
         siblingsData && siblingsData.cA === data ? undefined : 'likeCA should be equal to cA',
     }),
   };
-  const validator = createVadidator(schema);
+  const validator = createValidator(schema);
 
   it('returns undefined when no errors', () => {
     const errorMessages = validator({
@@ -77,7 +77,7 @@ describe('test', () => {
         ? undefined
         : ERRORS.VALIDATION_ERROR_INVALID_EMAIL;
 
-    const validator = createVadidator({
+    const validator = createValidator({
       optionalEmail: emailValidator,
       requiredEmail: [isRequiredValidator, emailValidator],
       optionalString: stringValidator,
@@ -112,7 +112,7 @@ describe('test', () => {
   });
 
   it('allow to validate a combination of params', () => {
-    const validator = createVadidator({
+    const validator = createValidator({
       a: (data: any) => (typeof data === 'undefined' ? undefined : data === 'A' ? undefined : 'a should be A'),
       b: (data: any) => (typeof data === 'undefined' ? undefined : data === 'B' ? undefined : 'b should be B'),
       abCombination: (_, siblingsData) =>

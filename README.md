@@ -12,12 +12,12 @@ npm i schemat
 Validate objects with simple functions and receive error messages if any:
 
 ```typescript
-import { createVadidator } from 'schemat';
+import { createValidator } from 'schemat';
 
-const validator = createVadidator({
+const validator = createValidator({
   a: (data: any) => (data === 'A' ? undefined : '"a" should be "A"'),
   likeA: (data: any, siblingsData: any) => siblingsData && siblingsData.a === data ? undefined : '"likeA" should be equal to param "a"',
-  nested: createVadidator({
+  nested: createValidator({
     c: (data: any) => (data === 'C' ? undefined : '"nested.c" should be "C"'),
   }),
 });
@@ -53,7 +53,7 @@ const errorMessages = validator({
 You can also pass an array of validators in your schema. Validator will run validators one by one and will stop and return first error, if any:
 
 ```typescript
-import { createVadidator, ValidatorType } from 'schemat';
+import { createValidator, ValidatorType } from 'schemat';
 
 enum ERRORS {
   VALIDATION_ERROR_REQUIRED_FIELD = 'VALIDATION_ERROR_REQUIRED_FIELD',
@@ -76,7 +76,7 @@ const emailValidator: ValidatorType = (data: any) =>
     ? undefined
     : ERRORS.VALIDATION_ERROR_INVALID_EMAIL;
 
-const validator = createVadidator({
+const validator = createValidator({
   optionalEmail: emailValidator,
   requiredEmail: [isRequiredValidator, emailValidator],
   optionalString: stringValidator,

@@ -1,3 +1,3 @@
-import { createVadidator, SchemaType, ErrorMessagesType, ValidatorType } from './schemaValidator';
+import { createValidator, SchemaType, ErrorMessagesType, ValidatorType } from './schemaValidator';
 
-export { createVadidator, SchemaType, ErrorMessagesType, ValidatorType };
+export { createValidator, SchemaType, ErrorMessagesType, ValidatorType };
